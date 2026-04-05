@@ -7,6 +7,7 @@ function go(id, el) {
     .forEach((n) => n.classList.remove("active"));
   document.getElementById(id).classList.add("active");
   el.classList.add("active");
+  closeSide();
 }
 function tog(id) {
   document.getElementById(id).classList.toggle("open");
@@ -19,4 +20,12 @@ function search(val) {
     el.style.display =
       !v || t.textContent.toLowerCase().includes(v) ? "flex" : "none";
   });
+}
+function openSide() {
+  document.getElementById("side").classList.add("open");
+  document.getElementById("overlay").classList.add("show");
+}
+function closeSide() {
+  document.getElementById("side").classList.remove("open");
+  document.getElementById("overlay").classList.remove("show");
 }

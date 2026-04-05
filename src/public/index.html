@@ -10,7 +10,9 @@
 
 <body>
     <div class="root">
-        <div class="side">
+        <div class="overlay" id="overlay" onclick="closeSide()"></div>
+
+        <div class="side" id="side">
             <div class="side-head">
                 <div class="side-logo">
                     <div class="logo-icon">F</div>
@@ -20,7 +22,7 @@
                     </div>
                 </div>
                 <div class="search-box">
-                    <span class="search-icon">&#9906;</span>
+                    <span style="color:#444;font-size:11px">&#9906;</span>
                     <input type="text" placeholder="Search endpoints..." oninput="search(this.value)">
                 </div>
             </div>
@@ -61,6 +63,13 @@
         </div>
 
         <div class="main">
+            <div class="topbar">
+                <button class="hamburger" onclick="openSide()">&#9776;</button>
+                <div class="topbar-logo">
+                    <div class="logo-icon" style="width:24px;height:24px;font-size:11px;border-radius:5px">F</div>
+                    <span style="font-size:13px;font-weight:600;color:#fff">Finance API</span>
+                </div>
+            </div>
 
             <div class="page active" id="pg-intro">
                 <div class="breadcrumb">Docs <span>›</span> Introduction</div>
@@ -106,7 +115,7 @@
                     <div class="code-block"><span class="key">POST</span> /api/v1/auth/register
                         {
                         <span class="key">"name"</span>: <span class="str">"Sumit Raghav"</span>,
-                        <span class="key">"email"</span>: <span class="str">"sumit@example.com"</span>,
+                        <span class="key">"email"</span>: <span class="str">"raghav@example.com"</span>,
                         <span class="key">"password"</span>: <span class="str">"password123"</span>,
                         <span class="key">"role"</span>: <span class="str">"admin"</span>
                         }
@@ -151,7 +160,7 @@
                                 <div class="field-label">Request body</div>
                                 <div class="code-block">{
                                     <span class="key">"name"</span>: <span class="str">"Sumit Raghav"</span>,
-                                    <span class="key">"email"</span>: <span class="str">"sumit@example.com"</span>,
+                                    <span class="key">"email"</span>: <span class="str">"raghav@example.com"</span>,
                                     <span class="key">"password"</span>: <span class="str">"password123"</span>,
                                     <span class="key">"role"</span>: <span class="str">"admin|analyst|viewer"</span>
                                     }
@@ -187,7 +196,7 @@
                             <div>
                                 <div class="field-label">Request body</div>
                                 <div class="code-block">{
-                                    <span class="key">"email"</span>: <span class="str">"sumit@example.com"</span>,
+                                    <span class="key">"email"</span>: <span class="str">"raghav@example.com"</span>,
                                     <span class="key">"password"</span>: <span class="str">"password123"</span>
                                     }
                                 </div>
@@ -259,7 +268,7 @@
                     </div>
                     <div class="ep-body">
                         <div class="field-label" style="margin-bottom:6px">Allowed roles</div>
-                        <div class="roles-wrap" style="margin-bottom:16px"><span class="rtag rt-admin">admin</span>
+                        <div class="roles-wrap" style="margin-bottom:14px"><span class="rtag rt-admin">admin</span>
                         </div>
                         <div class="two-col">
                             <div>
@@ -303,7 +312,7 @@
                     </div>
                     <div class="ep-body">
                         <div class="field-label" style="margin-bottom:6px">Allowed roles</div>
-                        <div class="roles-wrap" style="margin-bottom:16px"><span class="rtag rt-admin">admin</span>
+                        <div class="roles-wrap" style="margin-bottom:14px"><span class="rtag rt-admin">admin</span>
                         </div>
                         <div class="field-label">Request body — any updatable fields</div>
                         <div class="code-block">{
@@ -348,7 +357,7 @@
                     </div>
                     <div class="ep-body">
                         <div class="field-label" style="margin-bottom:6px">Allowed roles</div>
-                        <div class="roles-wrap" style="margin-bottom:16px"><span class="rtag rt-admin">admin</span><span
+                        <div class="roles-wrap" style="margin-bottom:14px"><span class="rtag rt-admin">admin</span><span
                                 class="rtag rt-analyst">analyst</span></div>
                         <div class="field-label">Response 200</div>
                         <div class="code-block">{
@@ -372,7 +381,7 @@
                     </div>
                     <div class="ep-body">
                         <div class="field-label" style="margin-bottom:6px">Allowed roles</div>
-                        <div class="roles-wrap" style="margin-bottom:16px"><span class="rtag rt-admin">admin</span><span
+                        <div class="roles-wrap" style="margin-bottom:14px"><span class="rtag rt-admin">admin</span><span
                                 class="rtag rt-analyst">analyst</span></div>
                         <div class="field-label">Response 200</div>
                         <div class="code-block">[
@@ -393,7 +402,7 @@
                     </div>
                     <div class="ep-body">
                         <div class="field-label" style="margin-bottom:6px">Allowed roles</div>
-                        <div class="roles-wrap" style="margin-bottom:16px"><span class="rtag rt-admin">admin</span><span
+                        <div class="roles-wrap" style="margin-bottom:14px"><span class="rtag rt-admin">admin</span><span
                                 class="rtag rt-analyst">analyst</span></div>
                         <div class="field-label">Response 200</div>
                         <div class="code-block">[
@@ -430,9 +439,9 @@
                     <div class="page-title">Roles &amp; permissions</div>
                     <div class="page-desc">Three roles with clearly defined access boundaries enforced at the middleware
                         layer via <code
-                            style="font-family:'SF Mono',monospace;font-size:12px;color:#a5b4fc;background:#1a1a1a;padding:1px 5px;border-radius:3px">protect</code>
+                            style="font-family:'SF Mono',monospace;font-size:11px;color:#a5b4fc;background:#1a1a1a;padding:1px 5px;border-radius:3px">protect</code>
                         and <code
-                            style="font-family:'SF Mono',monospace;font-size:12px;color:#a5b4fc;background:#1a1a1a;padding:1px 5px;border-radius:3px">authorize()</code>.
+                            style="font-family:'SF Mono',monospace;font-size:11px;color:#a5b4fc;background:#1a1a1a;padding:1px 5px;border-radius:3px">authorize()</code>.
                     </div>
                 </div>
                 <div class="table-wrap">
@@ -501,7 +510,7 @@
                         message to handle errors in your client.</div>
                 </div>
                 <div class="field-label" style="margin-bottom:8px">Error response shape</div>
-                <div class="code-block" style="margin-bottom:2rem">{
+                <div class="code-block" style="margin-bottom:1.5rem">{
                     <span class="key">"success"</span>: <span class="bool">false</span>,
                     <span class="key">"message"</span>: <span class="str">"Descriptive error message"</span>
                     }

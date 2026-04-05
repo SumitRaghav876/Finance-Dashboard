@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation by Sumit Raghav</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="root">
+        <div class="side">
+            <div class="side-head">
+                <div class="side-logo">
+                    <div class="logo-icon">F</div>
+                    <div>
+                        <div class="logo-text">Finance API</div>
+                        <div class="logo-sub">v1.0.0 — REST</div>
+                    </div>
+                </div>
+                <div class="search-box">
+                    <span class="search-icon">&#9906;</span>
+                    <input type="text" placeholder="Search endpoints..." oninput="search(this.value)">
+                </div>
+            </div>
+            <div class="nav" id="nav">
+                <div class="nav-sec">
+                    <div class="nav-sec-label">Overview</div>
+                    <div class="nav-item active" onclick="go('pg-intro',this)">
+                        <div class="nav-dot"></div><span class="nav-item-text">Introduction</span>
+                    </div>
+                    <div class="nav-item" onclick="go('pg-auth',this)">
+                        <div class="nav-dot"></div><span class="nav-item-text">Authentication</span>
+                    </div>
+                </div>
+                <div class="nav-sec">
+                    <div class="nav-sec-label">Endpoints</div>
+                    <div class="nav-item" onclick="go('pg-tx',this)">
+                        <div class="nav-dot"></div><span class="nav-item-text">Transactions</span><span
+                            class="nb nb-get">5</span>
+                    </div>
+                    <div class="nav-item" onclick="go('pg-dash',this)">
+                        <div class="nav-dot"></div><span class="nav-item-text">Dashboard</span><span
+                            class="nb nb-get">4</span>
+                    </div>
+                </div>
+                <div class="nav-sec">
+                    <div class="nav-sec-label">Reference</div>
+                    <div class="nav-item" onclick="go('pg-roles',this)">
+                        <div class="nav-dot"></div><span class="nav-item-text">Roles &amp; permissions</span>
+                    </div>
+                    <div class="nav-item" onclick="go('pg-errors',this)">
+                        <div class="nav-dot"></div><span class="nav-item-text">Error codes</span>
+                    </div>
+                </div>
+            </div>
+            <div class="side-footer">
+                <div class="status-dot"><span class="sdot"></span>API is live</div>
+            </div>
+        </div>
+
+        <div class="main">
+
+            <div class="page active" id="pg-intro">
+                <div class="breadcrumb">Docs <span>›</span> Introduction</div>
+                <div class="page-hero">
+                    <div class="page-title">Finance Dashboard API</div>
+                    <div class="page-desc">A production-ready REST API for managing financial records and analytics.
+                        Built with Node.js, Express &amp; MongoDB. Role-based access control with JWT authentication.
+                    </div>
+                    <div class="base-url">
+                        <span class="base-url-label">Base URL</span>
+                        <span class="base-url-val">http://localhost:3000/api/v1</span>
+                    </div>
+                </div>
+                <div class="stats">
+                    <div class="scard">
+                        <div class="scard-i">&#9729;</div>
+                        <div class="scard-n">12</div>
+                        <div class="scard-l">Endpoints</div>
+                    </div>
+                    <div class="scard">
+                        <div class="scard-i">&#128272;</div>
+                        <div class="scard-n">3</div>
+                        <div class="scard-l">User roles</div>
+                    </div>
+                    <div class="scard">
+                        <div class="scard-i">&#128737;</div>
+                        <div class="scard-n">JWT</div>
+                        <div class="scard-l">Auth method</div>
+                    </div>
+                    <div class="scard">
+                        <div class="scard-i">&#128202;</div>
+                        <div class="scard-n">REST</div>
+                        <div class="scard-l">Architecture</div>
+                    </div>
+                </div>
+                <div class="sec-hd"><span class="sec-hd-title">Quick start</span>
+                    <div class="sec-hd-line"></div>
+                </div>
+                <div class="getting-step">
+                    <div class="step-label">
+                        <div class="step-num">1</div><span class="step-text">Register a user</span>
+                    </div>
+                    <div class="code-block"><span class="key">POST</span> /api/v1/auth/register
+                        {
+                        <span class="key">"name"</span>: <span class="str">"Sumit Raghav"</span>,
+                        <span class="key">"email"</span>: <span class="str">"sumit@example.com"</span>,
+                        <span class="key">"password"</span>: <span class="str">"password123"</span>,
+                        <span class="key">"role"</span>: <span class="str">"admin"</span>
+                        }
+                    </div>
+                </div>
+                <div class="getting-step">
+                    <div class="step-label">
+                        <div class="step-num">2</div><span class="step-text">Use the token on every protected
+                            request</span>
+                    </div>
+                    <div class="code-block">Authorization: Bearer <span class="str">&lt;your_jwt_token&gt;</span></div>
+                </div>
+                <div class="getting-step">
+                    <div class="step-label">
+                        <div class="step-num">3</div><span class="step-text">Health check</span>
+                    </div>
+                    <div class="code-block"><span class="key">GET</span> /health
+                        <span class="bool">→</span> { <span class="key">"status"</span>: <span class="str">"ok"</span>,
+                        <span class="key">"message"</span>: <span class="str">"Server is running"</span> }
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="pg-auth">
+                <div class="breadcrumb">Docs <span>›</span> Authentication</div>
+                <div class="page-hero">
+                    <div class="page-title">Authentication</div>
+                    <div class="page-desc">Register or login to receive a JWT token. Include it as a Bearer token in the
+                        Authorization header for all protected endpoints.</div>
+                </div>
+                <div class="ep-card" id="ep-register">
+                    <div class="ep-head" onclick="tog('ep-register')">
+                        <span class="method m-post">POST</span>
+                        <span class="ep-path">/auth/register</span>
+                        <span class="ep-desc">Create a new user account</span>
+                        <span class="auth-tag tag-pub">public</span>
+                        <span class="chevron">&#9660;</span>
+                    </div>
+                    <div class="ep-body">
+                        <div class="two-col">
+                            <div>
+                                <div class="field-label">Request body</div>
+                                <div class="code-block">{
+                                    <span class="key">"name"</span>: <span class="str">"Sumit Raghav"</span>,
+                                    <span class="key">"email"</span>: <span class="str">"sumit@example.com"</span>,
+                                    <span class="key">"password"</span>: <span class="str">"password123"</span>,
+                                    <span class="key">"role"</span>: <span class="str">"admin|analyst|viewer"</span>
+                                    }
+                                </div>
+                            </div>
+                            <div>
+                                <div class="field-label">Response 201</div>
+                                <div class="code-block">{
+                                    <span class="key">"success"</span>: <span class="bool">true</span>,
+                                    <span class="key">"data"</span>: {
+                                    <span class="key">"token"</span>: <span class="str">"&lt;jwt_token&gt;"</span>,
+                                    <span class="key">"user"</span>: { ... }
+                                    }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <button class="try-btn"
+                            onclick="sendPrompt('Show me an example of calling POST /auth/register with curl')">Try it
+                            with curl &#8599;</button>
+                    </div>
+                </div>
+                <div class="ep-card" id="ep-login">
+                    <div class="ep-head" onclick="tog('ep-login')">
+                        <span class="method m-post">POST</span>
+                        <span class="ep-path">/auth/login</span>
+                        <span class="ep-desc">Login and receive a token</span>
+                        <span class="auth-tag tag-pub">public</span>
+                        <span class="chevron">&#9660;</span>
+                    </div>
+                    <div class="ep-body">
+                        <div class="two-col">
+                            <div>
+                                <div class="field-label">Request body</div>
+                                <div class="code-block">{
+                                    <span class="key">"email"</span>: <span class="str">"sumit@example.com"</span>,
+                                    <span class="key">"password"</span>: <span class="str">"password123"</span>
+                                    }
+                                </div>
+                            </div>
+                            <div>
+                                <div class="field-label">Response 200</div>
+                                <div class="code-block">{
+                                    <span class="key">"success"</span>: <span class="bool">true</span>,
+                                    <span class="key">"data"</span>: {
+                                    <span class="key">"token"</span>: <span class="str">"&lt;jwt_token&gt;"</span>,
+                                    <span class="key">"user"</span>: { ... }
+                                    }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <button class="try-btn"
+                            onclick="sendPrompt('Show me an example of calling POST /auth/login with curl')">Try it with
+                            curl &#8599;</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="pg-tx">
+                <div class="breadcrumb">Docs <span>›</span> Transactions</div>
+                <div class="page-hero">
+                    <div class="page-title">Transactions</div>
+                    <div class="page-desc">Create and manage financial records. Deletions are soft — records are flagged
+                        with isDeleted and preserved for audit purposes.</div>
+                </div>
+                <div class="ep-card" id="ep-gtx">
+                    <div class="ep-head" onclick="tog('ep-gtx')">
+                        <span class="method m-get">GET</span>
+                        <span class="ep-path">/transactions</span>
+                        <span class="ep-desc">List all transactions</span>
+                        <span class="auth-tag tag-auth">auth required</span>
+                        <span class="chevron">&#9660;</span>
+                    </div>
+                    <div class="ep-body">
+                        <div class="field-label">Allowed roles</div>
+                        <div class="roles-wrap"><span class="rtag rt-admin">admin</span><span
+                                class="rtag rt-analyst">analyst</span><span class="rtag rt-viewer">viewer</span></div>
+                        <button class="try-btn"
+                            onclick="sendPrompt('Show me how to call GET /transactions with a Bearer token using curl')">Try
+                            it with curl &#8599;</button>
+                    </div>
+                </div>
+                <div class="ep-card" id="ep-gtxid">
+                    <div class="ep-head" onclick="tog('ep-gtxid')">
+                        <span class="method m-get">GET</span>
+                        <span class="ep-path">/transactions/:id</span>
+                        <span class="ep-desc">Get a single transaction</span>
+                        <span class="auth-tag tag-auth">auth required</span>
+                        <span class="chevron">&#9660;</span>
+                    </div>
+                    <div class="ep-body">
+                        <div class="field-label">Allowed roles</div>
+                        <div class="roles-wrap"><span class="rtag rt-admin">admin</span><span
+                                class="rtag rt-analyst">analyst</span><span class="rtag rt-viewer">viewer</span></div>
+                    </div>
+                </div>
+                <div class="ep-card" id="ep-ptx">
+                    <div class="ep-head" onclick="tog('ep-ptx')">
+                        <span class="method m-post">POST</span>
+                        <span class="ep-path">/transactions</span>
+                        <span class="ep-desc">Create a new transaction</span>
+                        <span class="auth-tag tag-auth">auth required</span>
+                        <span class="chevron">&#9660;</span>
+                    </div>
+                    <div class="ep-body">
+                        <div class="field-label" style="margin-bottom:6px">Allowed roles</div>
+                        <div class="roles-wrap" style="margin-bottom:16px"><span class="rtag rt-admin">admin</span>
+                        </div>
+                        <div class="two-col">
+                            <div>
+                                <div class="field-label">Request body</div>
+                                <div class="code-block">{
+                                    <span class="key">"amount"</span>: <span class="num">5000</span>,
+                                    <span class="key">"type"</span>: <span class="str">"income | expense"</span>,
+                                    <span class="key">"category"</span>: <span class="str">"salary | food | ..."</span>,
+                                    <span class="key">"date"</span>: <span class="str">"2024-06-01"</span>,
+                                    <span class="key">"description"</span>: <span class="str">"optional"</span>
+                                    }
+                                </div>
+                            </div>
+                            <div>
+                                <div class="field-label">Response 201</div>
+                                <div class="code-block">{
+                                    <span class="key">"success"</span>: <span class="bool">true</span>,
+                                    <span class="key">"data"</span>: {
+                                    <span class="key">"transaction"</span>: {
+                                    <span class="key">"_id"</span>: <span class="str">"..."</span>,
+                                    <span class="key">"amount"</span>: <span class="num">5000</span>,
+                                    ...
+                                    }
+                                    }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <button class="try-btn"
+                            onclick="sendPrompt('Show me a curl example to POST /transactions with amount 5000 type income category salary')">Try
+                            it with curl &#8599;</button>
+                    </div>
+                </div>
+                <div class="ep-card" id="ep-pchtx">
+                    <div class="ep-head" onclick="tog('ep-pchtx')">
+                        <span class="method m-patch">PATCH</span>
+                        <span class="ep-path">/transactions/:id</span>
+                        <span class="ep-desc">Update a transaction</span>
+                        <span class="auth-tag tag-auth">auth required</span>
+                        <span class="chevron">&#9660;</span>
+                    </div>
+                    <div class="ep-body">
+                        <div class="field-label" style="margin-bottom:6px">Allowed roles</div>
+                        <div class="roles-wrap" style="margin-bottom:16px"><span class="rtag rt-admin">admin</span>
+                        </div>
+                        <div class="field-label">Request body — any updatable fields</div>
+                        <div class="code-block">{
+                            <span class="key">"amount"</span>: <span class="num">6000</span>,
+                            <span class="key">"description"</span>: <span class="str">"Updated description"</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="ep-card" id="ep-deltx">
+                    <div class="ep-head" onclick="tog('ep-deltx')">
+                        <span class="method m-delete">DELETE</span>
+                        <span class="ep-path">/transactions/:id</span>
+                        <span class="ep-desc">Soft delete a transaction</span>
+                        <span class="auth-tag tag-auth">auth required</span>
+                        <span class="chevron">&#9660;</span>
+                    </div>
+                    <div class="ep-body">
+                        <div class="field-label" style="margin-bottom:6px">Allowed roles</div>
+                        <div class="roles-wrap"><span class="rtag rt-admin">admin</span></div>
+                        <div class="info-note">Sets <code>isDeleted: true</code> on the record. The transaction is
+                            preserved in MongoDB for audit and compliance purposes and automatically excluded from all
+                            queries.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="pg-dash">
+                <div class="breadcrumb">Docs <span>›</span> Dashboard</div>
+                <div class="page-hero">
+                    <div class="page-title">Dashboard analytics</div>
+                    <div class="page-desc">Aggregation-powered endpoints for real-time financial insights. All data
+                        computed server-side using MongoDB aggregation pipelines.</div>
+                </div>
+                <div class="ep-card" id="ep-tot">
+                    <div class="ep-head" onclick="tog('ep-tot')">
+                        <span class="method m-get">GET</span>
+                        <span class="ep-path">/dashboard/totals</span>
+                        <span class="ep-desc">Income, expenses &amp; net balance</span>
+                        <span class="auth-tag tag-auth">auth required</span>
+                        <span class="chevron">&#9660;</span>
+                    </div>
+                    <div class="ep-body">
+                        <div class="field-label" style="margin-bottom:6px">Allowed roles</div>
+                        <div class="roles-wrap" style="margin-bottom:16px"><span class="rtag rt-admin">admin</span><span
+                                class="rtag rt-analyst">analyst</span></div>
+                        <div class="field-label">Response 200</div>
+                        <div class="code-block">{
+                            <span class="key">"totalIncome"</span>: <span class="num">15000</span>,
+                            <span class="key">"totalExpense"</span>: <span class="num">6500</span>,
+                            <span class="key">"netBalance"</span>: <span class="num">8500</span>
+                            }
+                        </div>
+                        <button class="try-btn"
+                            onclick="sendPrompt('Show me a curl example for GET /dashboard/totals with Bearer token')">Try
+                            it with curl &#8599;</button>
+                    </div>
+                </div>
+                <div class="ep-card" id="ep-cat">
+                    <div class="ep-head" onclick="tog('ep-cat')">
+                        <span class="method m-get">GET</span>
+                        <span class="ep-path">/dashboard/categories</span>
+                        <span class="ep-desc">Spending breakdown by category</span>
+                        <span class="auth-tag tag-auth">auth required</span>
+                        <span class="chevron">&#9660;</span>
+                    </div>
+                    <div class="ep-body">
+                        <div class="field-label" style="margin-bottom:6px">Allowed roles</div>
+                        <div class="roles-wrap" style="margin-bottom:16px"><span class="rtag rt-admin">admin</span><span
+                                class="rtag rt-analyst">analyst</span></div>
+                        <div class="field-label">Response 200</div>
+                        <div class="code-block">[
+                            { <span class="key">"_id"</span>: <span class="str">"salary"</span>, <span
+                                class="key">"total"</span>: <span class="num">10000</span> },
+                            { <span class="key">"_id"</span>: <span class="str">"food"</span>, <span
+                                class="key">"total"</span>: <span class="num">2500</span> }
+                            ]</div>
+                    </div>
+                </div>
+                <div class="ep-card" id="ep-trend">
+                    <div class="ep-head" onclick="tog('ep-trend')">
+                        <span class="method m-get">GET</span>
+                        <span class="ep-path">/dashboard/trends/monthly</span>
+                        <span class="ep-desc">Monthly income vs expense trends</span>
+                        <span class="auth-tag tag-auth">auth required</span>
+                        <span class="chevron">&#9660;</span>
+                    </div>
+                    <div class="ep-body">
+                        <div class="field-label" style="margin-bottom:6px">Allowed roles</div>
+                        <div class="roles-wrap" style="margin-bottom:16px"><span class="rtag rt-admin">admin</span><span
+                                class="rtag rt-analyst">analyst</span></div>
+                        <div class="field-label">Response 200</div>
+                        <div class="code-block">[
+                            {
+                            <span class="key">"_id"</span>: { <span class="key">"month"</span>: <span
+                                class="num">6</span>, <span class="key">"year"</span>: <span class="num">2024</span> },
+                            <span class="key">"total"</span>: <span class="num">5000</span>
+                            }
+                            ]
+                        </div>
+                    </div>
+                </div>
+                <div class="ep-card" id="ep-act">
+                    <div class="ep-head" onclick="tog('ep-act')">
+                        <span class="method m-get">GET</span>
+                        <span class="ep-path">/dashboard/activity</span>
+                        <span class="ep-desc">Recent transaction activity</span>
+                        <span class="auth-tag tag-auth">auth required</span>
+                        <span class="chevron">&#9660;</span>
+                    </div>
+                    <div class="ep-body">
+                        <div class="field-label" style="margin-bottom:6px">Allowed roles</div>
+                        <div class="roles-wrap"><span class="rtag rt-admin">admin</span><span
+                                class="rtag rt-analyst">analyst</span><span class="rtag rt-viewer">viewer</span></div>
+                        <div class="info-note">Returns the 10 most recent transactions by default. Pass
+                            <code>?limit=N</code> to customize.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="pg-roles">
+                <div class="breadcrumb">Docs <span>›</span> Roles &amp; permissions</div>
+                <div class="page-hero">
+                    <div class="page-title">Roles &amp; permissions</div>
+                    <div class="page-desc">Three roles with clearly defined access boundaries enforced at the middleware
+                        layer via <code
+                            style="font-family:'SF Mono',monospace;font-size:12px;color:#a5b4fc;background:#1a1a1a;padding:1px 5px;border-radius:3px">protect</code>
+                        and <code
+                            style="font-family:'SF Mono',monospace;font-size:12px;color:#a5b4fc;background:#1a1a1a;padding:1px 5px;border-radius:3px">authorize()</code>.
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table class="perm-table">
+                        <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th class="tc" style="color:#60a5fa">Admin</th>
+                                <th class="tc" style="color:#4ade80">Analyst</th>
+                                <th class="tc" style="color:#888">Viewer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>View transactions</td>
+                                <td class="tc yes">&#10003;</td>
+                                <td class="tc yes">&#10003;</td>
+                                <td class="tc yes">&#10003;</td>
+                            </tr>
+                            <tr>
+                                <td>View recent activity</td>
+                                <td class="tc yes">&#10003;</td>
+                                <td class="tc yes">&#10003;</td>
+                                <td class="tc yes">&#10003;</td>
+                            </tr>
+                            <tr>
+                                <td>Dashboard analytics</td>
+                                <td class="tc yes">&#10003;</td>
+                                <td class="tc yes">&#10003;</td>
+                                <td class="tc no">&#8212;</td>
+                            </tr>
+                            <tr>
+                                <td>Monthly trends</td>
+                                <td class="tc yes">&#10003;</td>
+                                <td class="tc yes">&#10003;</td>
+                                <td class="tc no">&#8212;</td>
+                            </tr>
+                            <tr>
+                                <td>Create transactions</td>
+                                <td class="tc yes">&#10003;</td>
+                                <td class="tc no">&#8212;</td>
+                                <td class="tc no">&#8212;</td>
+                            </tr>
+                            <tr>
+                                <td>Update transactions</td>
+                                <td class="tc yes">&#10003;</td>
+                                <td class="tc no">&#8212;</td>
+                                <td class="tc no">&#8212;</td>
+                            </tr>
+                            <tr>
+                                <td>Delete transactions</td>
+                                <td class="tc yes">&#10003;</td>
+                                <td class="tc no">&#8212;</td>
+                                <td class="tc no">&#8212;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="page" id="pg-errors">
+                <div class="breadcrumb">Docs <span>›</span> Error codes</div>
+                <div class="page-hero">
+                    <div class="page-title">Error codes</div>
+                    <div class="page-desc">All errors return a consistent JSON structure. Use the status code and
+                        message to handle errors in your client.</div>
+                </div>
+                <div class="field-label" style="margin-bottom:8px">Error response shape</div>
+                <div class="code-block" style="margin-bottom:2rem">{
+                    <span class="key">"success"</span>: <span class="bool">false</span>,
+                    <span class="key">"message"</span>: <span class="str">"Descriptive error message"</span>
+                    }
+                </div>
+                <div class="table-wrap">
+                    <table class="err-table">
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Meaning</th>
+                                <th>Common cause</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="code-ok">200</td>
+                                <td class="err-msg">OK</td>
+                                <td class="err-msg">Request succeeded</td>
+                            </tr>
+                            <tr>
+                                <td class="code-ok">201</td>
+                                <td class="err-msg">Created</td>
+                                <td class="err-msg">Resource created successfully</td>
+                            </tr>
+                            <tr>
+                                <td class="code-err">400</td>
+                                <td class="err-msg">Bad request</td>
+                                <td class="err-msg">Validation failed — check your request body</td>
+                            </tr>
+                            <tr>
+                                <td class="code-err">401</td>
+                                <td class="err-msg">Unauthorized</td>
+                                <td class="err-msg">Missing, invalid, or expired JWT token</td>
+                            </tr>
+                            <tr>
+                                <td class="code-err">403</td>
+                                <td class="err-msg">Forbidden</td>
+                                <td class="err-msg">Your role doesn't have access to this endpoint</td>
+                            </tr>
+                            <tr>
+                                <td class="code-err">404</td>
+                                <td class="err-msg">Not found</td>
+                                <td class="err-msg">Resource doesn't exist or was soft deleted</td>
+                            </tr>
+                            <tr>
+                                <td class="code-err">500</td>
+                                <td class="err-msg">Server error</td>
+                                <td class="err-msg">Unexpected server-side error</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
